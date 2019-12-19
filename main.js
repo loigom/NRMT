@@ -63,23 +63,25 @@ function main_loop() {
     for (let i = 0; i < taglines.length; i++) {
         if (!NRMT_node_in_tagline(taglines[i])) {
             let author_tag = taglines[i].getElementsByClassName("author")[0];
-            let username = author_tag.innerHTML;
-            if (username in user_to_NRMT_node) {
-                if (user_to_NRMT_node[username] != null) {
-                    insertAfter(user_to_NRMT_node[username].cloneNode(true), author_tag);
-                }
-            } else {
-                user_to_NRMT_node[username] = null;
-                let request = new XMLHttpRequest();
-                let url = "https://old.reddit.com/user/" + username + ".json?limit=100";
-                request.open("GET", url);
-                request.onreadystatechange = function() {
-                    if (request.readyState == 4 && request.status == 200) {
-                        let parsed = JSON.parse(request.responseText);
-                        make_NRMT_node(parsed["data"]);
+            if (author_tag != null) {
+                let username = author_tag.innerHTML;
+                if (username in user_to_NRMT_node) {
+                    if (user_to_NRMT_node[username] != null) {
+                        insertAfter(user_to_NRMT_node[username].cloneNode(true), author_tag);
                     }
-                }
-                request.send();
+                } else {
+                    user_to_NRMT_node[username] = null;
+                    let request = new XMLHttpRequest();
+                    let url = "https://old.reddit.com/user/" + username + ".json?limit=100";
+                    request.open("GET", url);
+                    request.onreadystatechange = function() {
+                        if (request.readyState == 4 && request.status == 200) {
+                            let parsed = JSON.parse(request.responseText);
+                            make_NRMT_node(parsed["data"]);
+                        }
+                    }
+                    request.send();
+                }   
             }
         }
     }
