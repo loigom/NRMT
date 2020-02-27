@@ -5,3 +5,5 @@ For each username found on any given old.reddit page, go through their profile a
 [Minifier.](https://javascript-minifier.com/)
 
 ![example from /r/videos](https://addons.cdn.mozilla.net/user-media/previews/full/229/229743.png)
+
+![another example](https://i.imgur.com/Fvzpl2f.png)
