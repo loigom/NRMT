@@ -27,7 +27,7 @@ document.head.appendChild(NRMTstyles);
 let userToNRMTnode = {}
 ,   userToTooltipInfo = {};
 
-var NRMT_TOOLTIP_LEFT_OFFSET = 65
+let NRMT_TOOLTIP_LEFT_OFFSET = 65
 ,   NRMT_TOOLTIP_TOP_OFFSET = 20;
 
 let tooltip = document.createElement("div");
@@ -80,12 +80,16 @@ function makeNRMTnode(parsed) {
     userToNRMTnode[username] = NRMTnode;
 
     userToTooltipInfo[username] = [];
-    for (let i = sortable.length - 1; i >= 0; i--) {
-        let sub = sortable[i][0];
-        let contributions = sortable[i][1];
-        userToTooltipInfo[username].push(`r/${sub}: ${contributions}`);
+    let i = sortable.length;
+    while (--i >= 0 && userToTooltipInfo[username].length < 10) {
+        userToTooltipInfo[username].push(`r/${sortable[i][0]}: ${sortable[i][1]}`);
     }
-
+    if (i == 0) {
+        userToTooltipInfo[username].push(`r/${sortable[0][0]}: ${sortable[0][1]}`);
+    }
+    else if (i > 0) {
+        userToTooltipInfo[username].push(`... [${i + 1} more subs]`);
+    }
 }
 
 function NRMTnode_in_tagline(tagline) {
