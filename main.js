@@ -141,5 +141,5 @@ function mainLoop() {
     }
 }
 
-setInterval(mainLoop, 400);
+setInterval(mainLoop, 100);
 console.log("NRMT ready");
