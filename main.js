@@ -44,24 +44,6 @@ function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-function makeTooltip(username, strings) {
-    let tooltip = document.createElement("div");
-
-    let nameText = document.createElement("h3");
-    nameText.appendChild(document.createTextNode(username));
-    tooltip.appendChild(nameText);
-    tooltip.appendChild(document.createElement("hr"));
-    
-    strings.forEach(text => {
-        let textNode = document.createElement("h4");
-        textNode.appendChild(document.createTextNode(text));
-        tooltip.appendChild(textNode);
-    });
-
-    tooltip.className = "NRMTtooltip";
-    return tooltip;
-}
-
 function makeNRMTnode(parsed) {
     let username = parsed["children"][0]["data"]["author"]
     ,   frequented = {};
