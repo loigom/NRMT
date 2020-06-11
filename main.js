@@ -1,4 +1,4 @@
-let NRMTstyles = document.createElement("style");
+const NRMTstyles = document.createElement("style");
 NRMTstyles.innerHTML = `
 .NRMTnode,
 #NRMTtooltip {
@@ -24,20 +24,20 @@ NRMTstyles.innerHTML = `
 `
 document.head.appendChild(NRMTstyles);
 
-let userToNRMTnode = {}
-,   userToTooltipInfo = {};
+const userToNRMTnode = {}
+,     userToTooltipInfo = {};
 
-let NRMT_TOOLTIP_LEFT_OFFSET = 65
-,   NRMT_TOOLTIP_TOP_OFFSET = 20;
+const NRMT_TOOLTIP_LEFT_OFFSET = 65
+,     NRMT_TOOLTIP_TOP_OFFSET = 20;
 
-let tooltip = document.createElement("div");
+const tooltip = document.createElement("div");
 tooltip.id = "NRMTtooltip";
-let tooltipNameHeader = document.createElement("h3");
+const tooltipNameHeader = document.createElement("h3");
 tooltip.appendChild(tooltipNameHeader);
 tooltip.appendChild(document.createElement("hr"));
-let tooltipContributionsContainer = document.createElement("div");
+const tooltipContributionsContainer = document.createElement("div");
 tooltip.appendChild(tooltipContributionsContainer);
-let siteTable = document.getElementById("siteTable");
+const siteTable = document.getElementById("siteTable");
 siteTable.insertBefore(tooltip, siteTable.firstChild);
 
 function insertAfter(newNode, referenceNode) {
@@ -45,11 +45,11 @@ function insertAfter(newNode, referenceNode) {
 }
 
 function makeNRMTnode(parsed) {
-    let username = parsed["children"][0]["data"]["author"]
+    const username = parsed["children"][0]["data"]["author"]
     ,   frequented = {};
     
     for (let i = 0; i < parsed["dist"]; i++) {
-        let sub = parsed["children"][i]["data"]["subreddit"];
+        const sub = parsed["children"][i]["data"]["subreddit"];
         if (sub in frequented) {
             frequented[sub]++;
         } else {
@@ -57,7 +57,7 @@ function makeNRMTnode(parsed) {
         }
     }
 
-    let sortable = [];
+    const sortable = [];
     for (key in frequented) {
         sortable.push([key, frequented[key]]);
     }
@@ -65,15 +65,15 @@ function makeNRMTnode(parsed) {
         return a[1] - b[1];
     });
     
-    let mostFrequented = sortable[sortable.length - 1][0];
+    const mostFrequented = sortable[sortable.length - 1][0];
 
-    let textNode = document.createElement("a");
+    const textNode = document.createElement("a");
     textNode.appendChild(document.createTextNode(mostFrequented));
     textNode.setAttribute("href", `https://old.reddit.com/r/${mostFrequented}`);
     textNode.setAttribute("target", "_blank");
     textNode.style.color = "black";
 
-    let NRMTnode = document.createElement("span");
+    const NRMTnode = document.createElement("span");
     NRMTnode.appendChild(textNode);
     NRMTnode.className = "NRMTnode";
 
@@ -97,15 +97,15 @@ function NRMTnode_in_tagline(tagline) {
 }
 
 function mainLoop() {
-    let taglines = document.getElementsByClassName("tagline");
+    const taglines = document.getElementsByClassName("tagline");
     for (let i = 0; i < taglines.length; i++) {
         if (!NRMTnode_in_tagline(taglines[i])) {
-            let authorTag = taglines[i].getElementsByClassName("author")[0];
+            const authorTag = taglines[i].getElementsByClassName("author")[0];
             if (authorTag != null) {
-                let username = authorTag.innerHTML;
+                const username = authorTag.innerHTML;
                 if (username in userToNRMTnode) {
                     if (userToNRMTnode[username] != null) {
-                        let n = userToNRMTnode[username].cloneNode(true);
+                        const n = userToNRMTnode[username].cloneNode(true);
                         n.onmouseenter = function() {
                             tooltip.style.visibility = "visible";
                             tooltip.style.left = n.offsetLeft + NRMT_TOOLTIP_LEFT_OFFSET + "px";
@@ -113,7 +113,7 @@ function mainLoop() {
                             tooltipNameHeader.innerText = username;
                             tooltipContributionsContainer.innerHTML = "";
                             userToTooltipInfo[username].forEach(text => {
-                                let p = document.createElement("p");
+                                const p = document.createElement("p");
                                 p.appendChild(document.createTextNode(text));
                                 tooltipContributionsContainer.appendChild(p);
                             });
@@ -125,12 +125,12 @@ function mainLoop() {
                     }
                 } else {
                     userToNRMTnode[username] = null;
-                    let request = new XMLHttpRequest();
-                    let url = `https://old.reddit.com/user/${username}.json?limit=100`;
+                    const request = new XMLHttpRequest();
+                    const url = `https://old.reddit.com/user/${username}.json?limit=100`;
                     request.open("GET", url);
                     request.onreadystatechange = function() {
                         if (request.readyState == 4 && request.status == 200) {
-                            let parsed = JSON.parse(request.responseText);
+                            const parsed = JSON.parse(request.responseText);
                             makeNRMTnode(parsed["data"]);
                         }
                     }
