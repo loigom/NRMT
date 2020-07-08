@@ -1,13 +1,31 @@
 {
     "manifest_version": 2,
     "name": "NRMT",
-    "version": "3.2.2",
+    "version": "3.3.0",
     "description":"old.reddit masstagger.",
+    "homepage_url": "https://github.com/Mothrakk",
+
+    "browser_action": {
+        "default_icon": {
+          "16": "popup/icon.png"
+        },
+        "default_title": "NRMT",
+        "default_popup": "popup/popup.html"
+    },
     
     "content_scripts": [
         {
-            "matches":["*://old.reddit.com/*"],
-            "js":["main.js"]
+            "matches": ["*://old.reddit.com/*"],
+            "js": ["main.js"]
         }
-    ] 
+    ],
+
+    "permissions": ["storage"],
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "mothfriend@protonmail.com",
+            "strict_min_version": "57.0a1"
+        }
+    }
 }

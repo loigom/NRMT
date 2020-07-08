@@ -46,7 +46,7 @@ function insertAfter(newNode, referenceNode) {
 
 function makeNRMTnode(parsed) {
     const username = parsed["children"][0]["data"]["author"]
-    ,   frequented = {};
+    ,     frequented = {};
     
     for (let i = 0; i < parsed["dist"]; i++) {
         const sub = parsed["children"][i]["data"]["subreddit"];
