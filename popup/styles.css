@@ -1,6 +1,7 @@
 .collectionWrapper {
     padding: 2px;
     border-radius: 6px;
+    font-family: monospace;
 }
 
 .infoText {
