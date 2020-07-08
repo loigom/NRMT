@@ -1,0 +1,11 @@
+.collectionWrapper {
+    padding: 2px;
+    border-radius: 6px;
+    font-family: monospace;
+}
+
+.infoText {
+    font-family: monospace;
+    margin: 3px;
+    padding: 0px;
+}

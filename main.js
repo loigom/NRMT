@@ -24,6 +24,15 @@ NRMTstyles.innerHTML = `
 `
 document.head.appendChild(NRMTstyles);
 
+const userOptions = {};
+
+browser.storage.sync.get("index")
+    .then(function(item) {
+        item.index.forEach(node => {
+            userOptions[node.subreddit] = parseFloat(node.weight);
+        });
+    }, console.log);
+
 const userToNRMTnode = {}
 ,     userToTooltipInfo = {};
 
@@ -44,9 +53,14 @@ function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
+function makeToolTipInfoItem(sub, score) {
+    const postfix = (sub.toLowerCase() in userOptions) ? "*" : "";
+    return `r/${sub}: ${score}${postfix}`;
+}
+
 function makeNRMTnode(parsed) {
     const username = parsed["children"][0]["data"]["author"]
-    ,   frequented = {};
+    ,     frequented = {};
     
     for (let i = 0; i < parsed["dist"]; i++) {
         const sub = parsed["children"][i]["data"]["subreddit"];
@@ -54,6 +68,16 @@ function makeNRMTnode(parsed) {
             frequented[sub]++;
         } else {
             frequented[sub] = 1;
+        }
+    }
+
+    for (let sub in frequented) {
+        const lower = sub.toLowerCase();
+        if (lower in userOptions) {
+            frequented[sub] *= userOptions[lower];
+            if (frequented[sub] == 0) {
+                delete frequented[sub];
+            }
         }
     }
 
@@ -82,10 +106,10 @@ function makeNRMTnode(parsed) {
     userToTooltipInfo[username] = [];
     let i = sortable.length;
     while (--i >= 0 && userToTooltipInfo[username].length < 10) {
-        userToTooltipInfo[username].push(`r/${sortable[i][0]}: ${sortable[i][1]}`);
+        userToTooltipInfo[username].push(makeToolTipInfoItem(sortable[i][0], sortable[i][1]));
     }
     if (i == 0) {
-        userToTooltipInfo[username].push(`r/${sortable[0][0]}: ${sortable[0][1]}`);
+        userToTooltipInfo[username].push(makeToolTipInfoItem(sortable[0][0], sortable[0][1]));
     }
     else if (i > 0) {
         userToTooltipInfo[username].push(`... [${i + 1} more subs]`);
