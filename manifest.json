@@ -24,7 +24,7 @@
 
     "browser_specific_settings": {
         "gecko": {
-            "id": "mothfriend@protonmail.com",
+            "id": "{007e5327-f1ba-433d-aead-41cab2b7afb1}",
             "strict_min_version": "57.0a1"
         }
     }
