@@ -29,7 +29,10 @@ const userOptions = {};
 browser.storage.sync.get("index")
     .then(function(item) {
         item.index.forEach(node => {
-            userOptions[node.subreddit] = parseFloat(node.weight);
+            userOptions[node.subreddit] = {
+                weight: parseFloat(node.weight),
+                color: node.color
+            };
         });
     }, console.log);
 
@@ -54,8 +57,19 @@ function insertAfter(newNode, referenceNode) {
 }
 
 function makeToolTipInfoItem(sub, score) {
-    const postfix = (sub.toLowerCase() in userOptions) ? "*" : "";
-    return `r/${sub}: ${score}${postfix}`;
+    const subLower = sub.toLowerCase();
+    let postfix, c;
+    if (subLower in userOptions) {
+        postfix = "*";
+        c = userOptions[subLower]["color"];
+    } else {
+        postfix = "";
+        c = "white";
+    }
+    return {
+        text: `r/${sub}: ${score}${postfix}`,
+        color: c
+    };
 }
 
 function makeNRMTnode(parsed) {
@@ -74,7 +88,7 @@ function makeNRMTnode(parsed) {
     for (let sub in frequented) {
         const lower = sub.toLowerCase();
         if (lower in userOptions) {
-            frequented[sub] *= userOptions[lower];
+            frequented[sub] *= userOptions[lower]["weight"];
             if (frequented[sub] == 0) {
                 delete frequented[sub];
             }
@@ -112,7 +126,10 @@ function makeNRMTnode(parsed) {
         userToTooltipInfo[username].push(makeToolTipInfoItem(sortable[0][0], sortable[0][1]));
     }
     else if (i > 0) {
-        userToTooltipInfo[username].push(`... [${i + 1} more subs]`);
+        userToTooltipInfo[username].push({
+            text: `... [${i + 1} more subs]`,
+            color: "white"
+        });
     }
 }
 
@@ -136,9 +153,10 @@ function mainLoop() {
                             tooltip.style.top = n.offsetTop + NRMT_TOOLTIP_TOP_OFFSET + "px";
                             tooltipNameHeader.innerText = username;
                             tooltipContributionsContainer.innerHTML = "";
-                            userToTooltipInfo[username].forEach(text => {
+                            userToTooltipInfo[username].forEach(infoNode => {
                                 const p = document.createElement("p");
-                                p.appendChild(document.createTextNode(text));
+                                p.appendChild(document.createTextNode(infoNode.text));
+                                p.style.color = infoNode.color;
                                 tooltipContributionsContainer.appendChild(p);
                             });
                         }
