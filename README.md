@@ -4,6 +4,6 @@ For each username found on any given old.reddit page, go through their profile a
 
 [Minifier.](https://javascript-minifier.com/)
 
-![example from /r/videos](https://addons.cdn.mozilla.net/user-media/previews/full/229/229743.png)
+![example 3.4](https://addons.cdn.mozilla.net/user-media/previews/full/244/244521.png?modified=1599924294)
 
-![another example](https://i.imgur.com/Fvzpl2f.png)
+![another example](https://addons.cdn.mozilla.net/user-media/previews/full/244/244522.png?modified=1599924293)
