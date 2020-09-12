@@ -5,7 +5,7 @@ new_btn.onclick = function() {
 let changesMade = false;
 const alreadySeen = new Set();
 
-function newCollection(sub="", weight=1) {
+function newCollection(sub="", weight=1, color="white") {
     const count = document.getElementsByClassName("collectionWrapper").length;
     const e = document.createElement("div");
     e.className = "collectionWrapper";
@@ -51,6 +51,22 @@ function newCollection(sub="", weight=1) {
         return false;
     } 
     e.appendChild(weightInput);
+    
+    e.appendChild(document.createTextNode(" | Color:"));
+    const colorSelect = document.createElement("select");
+    ["white", "red", "pink", "cyan", "green", "orange", "yellow"].forEach(x => {
+        const option = document.createElement("option");
+        if (x == color) {
+            option.setAttribute("selected", "");
+        }
+        option.value = x;
+        option.appendChild(document.createTextNode(x));
+        colorSelect.appendChild(option);
+    });
+    colorSelect.onchange = function() {
+        changesMade = true;
+    }
+    e.appendChild(colorSelect);
 
     e.appendChild(document.createTextNode(" | "));
     const eraseButton = document.createElement("button");
@@ -66,7 +82,7 @@ function newCollection(sub="", weight=1) {
 
 function onLoad(item) {
     item.index.forEach(node => {
-        newCollection(node.subreddit, node.weight);
+        newCollection(node.subreddit, node.weight, node.color);
     });
 }
 
@@ -79,9 +95,10 @@ function saveAndSync() {
         const inputs = elements[i].getElementsByTagName("input");
         const sub = inputs[0].value.toLowerCase();
         const w = inputs[1].value;
+        const c = elements[i].getElementsByTagName("select")[0].value;
 
         if (sub.length > 0 && !alreadySeen.has(sub)) {
-            index.push({subreddit: sub, weight: w});
+            index.push({subreddit: sub, weight: w, color: c});
             alreadySeen.add(sub);
         }
     }
