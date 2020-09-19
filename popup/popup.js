@@ -22,7 +22,7 @@ function newCollection(sub="", weight=1, color="white") {
     const subInput = document.createElement("input");
     subInput.value = sub;
     subInput.onkeydown = function(e) {
-        if (e.key.match("[a-zA-Z0-9_]") || e.keyCode == 8) {
+        if (e.key.match("[a-zA-Z0-9_]") || e.key == "Backspace") {
             changesMade = true;
             return true;
         }
@@ -36,8 +36,8 @@ function newCollection(sub="", weight=1, color="white") {
     weightInput.value = weight;
     weightInput.style.color = "green";
     weightInput.onkeydown = function(e) {
-        if (e.key.match("[0-9\.]") || e.keyCode == 8) {
-            const future = (e.keyCode == 8) ? weightInput.value.substr(0, weightInput.value.length - 1) : weightInput.value + e.key;
+        if (e.key.match("[0-9\.]") || e.key == "Backspace") {
+            const future = (e.key == "Backspace") ? weightInput.value.substr(0, weightInput.value.length - 1) : weightInput.value + e.key;
             if (future.length >= 5) { return false; }
             if (future.match("^([0-9]+|([0-9]+\.[0-9]+))$")) {
                 weightInput.style.color = "green";
@@ -53,6 +53,7 @@ function newCollection(sub="", weight=1, color="white") {
     e.appendChild(weightInput);
     
     e.appendChild(document.createTextNode(" | Color:"));
+    const colorPreview = document.createElement("div");
     const colorSelect = document.createElement("select");
     ["white", "red", "pink", "cyan", "green", "orange", "yellow"].forEach(x => {
         const option = document.createElement("option");
@@ -65,8 +66,13 @@ function newCollection(sub="", weight=1, color="white") {
     });
     colorSelect.onchange = function() {
         changesMade = true;
+        colorPreview.style.backgroundColor = colorSelect.value;
     }
     e.appendChild(colorSelect);
+
+    colorPreview.className = "colorPreview";
+    colorPreview.style.backgroundColor = color;
+    e.appendChild(colorPreview);
 
     e.appendChild(document.createTextNode(" | "));
     const eraseButton = document.createElement("button");

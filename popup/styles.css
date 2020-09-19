@@ -9,3 +9,11 @@
     margin: 3px;
     padding: 0px;
 }
+
+.colorPreview {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: solid 1px;
+    margin-left: 5px;
+}
