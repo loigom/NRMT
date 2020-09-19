@@ -6,4 +6,4 @@ For each username found on any given old.reddit page, go through their profile a
 
 ![example 3.4](https://addons.cdn.mozilla.net/user-media/previews/full/244/244521.png?modified=1599924294)
 
-![another example](https://addons.cdn.mozilla.net/user-media/previews/full/244/244522.png?modified=1599924293)
+![another example](https://i.imgur.com/CkaJr3G.png)
