@@ -1,31 +1,31 @@
 {
-    "manifest_version": 2,
-    "name": "NRMT",
-    "version": "3.4.1",
-    "description":"old.reddit masstagger.",
-    "homepage_url": "https://github.com/Mothrakk",
+	"manifest_version": 2,
+	"name": "NRMT",
+	"version": "3.4.1",
+	"description": "neutral reddit masstagger",
+	"homepage_url": "https://github.com/loigom/NRMT",
 
-    "browser_action": {
-        "default_icon": {
-          "16": "popup/icon.png"
-        },
-        "default_title": "NRMT",
-        "default_popup": "popup/popup.html"
-    },
-    
-    "content_scripts": [
-        {
-            "matches": ["*://old.reddit.com/*"],
-            "js": ["main.js"]
-        }
-    ],
+	"browser_action": {
+		"default_icon": {
+			"16": "popup/icon.png"
+		},
+		"default_title": "NRMT",
+		"default_popup": "popup/popup.html"
+	},
 
-    "permissions": ["storage"],
+	"content_scripts": [
+		{
+			"matches": ["*://*.reddit.com/*"],
+			"js": ["dist/nrmt.js"]
+		}
+	],
 
-    "browser_specific_settings": {
-        "gecko": {
-            "id": "{007e5327-f1ba-433d-aead-41cab2b7afb1}",
-            "strict_min_version": "57.0a1"
-        }
-    }
+	"permissions": ["storage"],
+
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{007e5327-f1ba-433d-aead-41cab2b7afb1}",
+			"strict_min_version": "57.0a1"
+		}
+	}
 }
