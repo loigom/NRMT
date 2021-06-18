@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "system",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"lib": ["es2020", "DOM"],
+		"types": ["web-ext-types"],
+		"outFile": "dist/nrmt.js"
+	},
+	"include": ["nrmt.ts"]
+}
