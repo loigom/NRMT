@@ -1,9 +1,11 @@
 {
     "name": "nrmt",
     "scripts": {
-        "build": "tsc -p .",
-        "build:watch": "npm run build -- --watch",
+        "build": "run-s tsc:build web-ext:build",
+        "tsc:build": "tsc -p .",
+        "build:watch": "npm run tsc:build -- --watch",
         "web-ext:run": "web-ext run",
+        "web-ext:build": "web-ext build",
         "start": "run-p build:watch web-ext:run"
     },
     "devDependencies": {
